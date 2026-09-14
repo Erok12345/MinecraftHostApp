@@ -1,0 +1,172 @@
+<UserControl x:Class="MinecraftHostApp.ServerLobbyControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid MaxWidth="720">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel>
+            <Button Content="← Назад к списку" Style="{StaticResource SecondaryButton}" Width="150" Height="34"
+                    HorizontalAlignment="Left" Margin="0,0,0,20" Click="Back_Click"/>
+
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                <Border Width="8" Height="24" Background="{StaticResource AccentGreen}" CornerRadius="2" Margin="0,0,10,0"/>
+                <TextBlock x:Name="TitleText" Style="{StaticResource TitleText}"/>
+            </StackPanel>
+            <TextBlock x:Name="LoaderVersionText" Style="{StaticResource SubText}" Margin="18,2,0,4"/>
+            <StackPanel Orientation="Horizontal" Margin="18,0,0,16">
+                <Ellipse x:Name="StatusDot" Width="8" Height="8" Margin="0,0,6,0"/>
+                <TextBlock x:Name="StatusText" FontSize="12" FontWeight="SemiBold"/>
+            </StackPanel>
+
+            <Border Background="{StaticResource BgCard}" CornerRadius="10" Padding="16" Margin="0,0,0,16">
+                <StackPanel>
+                    <TextBlock Text="Автор" Style="{StaticResource FieldLabel}"/>
+                    <TextBlock x:Name="AuthorText" Foreground="{StaticResource TextPrimary}" Margin="0,0,0,10"/>
+                    <TextBlock Text="Кому разрешено хостить" Style="{StaticResource FieldLabel}"/>
+                    <TextBlock x:Name="AllowedHostsText" Foreground="{StaticResource TextPrimary}" TextWrapping="Wrap"/>
+                </StackPanel>
+            </Border>
+
+            <TextBlock x:Name="AddressText" Foreground="{StaticResource AccentGreen}" FontWeight="SemiBold"
+                       TextWrapping="Wrap" Margin="0,0,0,4" Visibility="Collapsed"
+                       Cursor="Hand" MouseLeftButtonUp="AddressText_Click" ToolTip="Нажми, чтобы скопировать"/>
+            <TextBlock x:Name="AddressCopiedHint" Style="{StaticResource SubText}" FontSize="11" Margin="0,0,0,12" Visibility="Collapsed"/>
+
+            <StackPanel x:Name="ConsolePanel" Visibility="Collapsed" Margin="0,0,0,14">
+                <TextBlock Text="КОНСОЛЬ СЕРВЕРА" Style="{StaticResource FieldLabel}"/>
+                <Border Background="{StaticResource BgCard}" CornerRadius="8" Padding="10">
+                    <ScrollViewer x:Name="ConsoleScroll" Height="220" VerticalScrollBarVisibility="Auto">
+                        <TextBlock x:Name="ConsoleText" FontFamily="Consolas" FontSize="11"
+                                   Foreground="{StaticResource TextPrimary}" TextWrapping="Wrap"/>
+                    </ScrollViewer>
+                </Border>
+                <Grid Margin="0,8,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="ConsoleCommandBox" Grid.Column="0" Style="{StaticResource InputBox}" Height="36" KeyDown="ConsoleCommandBox_KeyDown"/>
+                    <Button Grid.Column="2" Content="Отправить" Style="{StaticResource SecondaryButton}" Width="110" Height="36" Click="SendConsoleCommand_Click"/>
+                </Grid>
+            </StackPanel>
+
+            <StackPanel x:Name="RamPanel" Margin="0,0,0,14">
+                <Grid Margin="0,0,0,6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Память серверу:" VerticalAlignment="Center" Style="{StaticResource SubText}"/>
+                    <TextBlock x:Name="RamValueText" Grid.Column="1" FontWeight="SemiBold" Foreground="{StaticResource TextPrimary}"/>
+                </Grid>
+                <Slider x:Name="RamSlider" ValueChanged="RamSlider_ValueChanged"/>
+            </StackPanel>
+
+            <Button x:Name="ActionButton" Style="{StaticResource PrimaryButton}" Margin="0,0,0,10" Click="Action_Click"/>
+            <Button x:Name="DownloadClientButton" Content="Скачать клиент" Style="{StaticResource SecondaryButton}" Margin="0,0,0,10" Click="DownloadClient_Click"/>
+            <Button x:Name="ModsButton" Content="Моды" Style="{StaticResource SecondaryButton}" Margin="0,0,0,10" Click="Mods_Click"/>
+            <UniformGrid Columns="2" Rows="1" Margin="0,0,0,10">
+                <Button Content="Ресурспаки" Style="{StaticResource SecondaryButton}" Margin="0,0,6,0" Click="ResourcePacks_Click"/>
+                <Button Content="Датапаки" Style="{StaticResource SecondaryButton}" Margin="6,0,0,0" Click="Datapacks_Click"/>
+            </UniformGrid>
+
+            <Border x:Name="AdminPanel" Background="{StaticResource BgCard}" CornerRadius="10" Padding="16" Margin="0,6,0,0" Visibility="Collapsed">
+                <StackPanel>
+                    <TextBlock Text="ПАНЕЛЬ АДМИНА" Style="{StaticResource FieldLabel}" Margin="0,0,0,10"/>
+                    <UniformGrid Columns="2" Rows="3">
+                        <Button Content="Показать пароль" Style="{StaticResource SecondaryButton}" Height="34" FontSize="11.5" Margin="0,0,6,8" Click="ShowPassword_Click"/>
+                        <Button Content="Сменить пароль" Style="{StaticResource SecondaryButton}" Height="34" FontSize="11.5" Margin="6,0,0,8" Click="SetPassword_Click"/>
+                        <Button Content="Разрешить хостить" Style="{StaticResource SecondaryButton}" Height="34" FontSize="11.5" Margin="0,0,6,8" Click="AddHost_Click"/>
+                        <Button Content="Забрать право хоста" Style="{StaticResource SecondaryButton}" Height="34" FontSize="11.5" Margin="6,0,0,8" Click="RemoveHost_Click"/>
+                        <Button Content="Кикнуть на время" Style="{StaticResource SecondaryButton}" Height="34" FontSize="11.5" Margin="0,0,6,0" Click="Kick_Click"/>
+                        <Button Content="Забанить навсегда" Style="{StaticResource DangerButton}" Height="34" FontSize="11.5" Margin="6,0,0,0" Click="Ban_Click"/>
+                    </UniformGrid>
+                    <Button Content="Разбанить" Style="{StaticResource SecondaryButton}" Height="34" FontSize="11.5" Margin="0,8,0,0" Click="Unban_Click"/>
+
+                    <TextBlock Text="ДОСТУП К ПАПКЕ МИРА НА GOOGLE DRIVE" Style="{StaticResource FieldLabel}" TextWrapping="Wrap" Margin="0,16,0,8"/>
+                    <Button x:Name="ShareDriveButton" Content="Дать другу доступ по email" Style="{StaticResource SecondaryButton}" Height="34" FontSize="11.5" Margin="0,0,0,4" Click="ShareDrive_Click"/>
+                    <TextBlock x:Name="ShareDriveHint" Style="{StaticResource SubText}" FontSize="11" TextWrapping="Wrap" Margin="0,0,0,10"/>
+
+                    <Button Content="Пересоздать мир (старый уйдёт в архив на Drive)" Style="{StaticResource DangerButton}" Margin="0,10,0,0" Click="ResetWorld_Click"/>
+                    <Button Content="Удалить сервер (мир на Drive не тронется)" Style="{StaticResource DangerButton}" Margin="0,10,0,0" Click="Delete_Click"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Доступно любому, кому разрешено хостить (не только создателю) - тот, чья сейчас очередь,
+                 должен уметь настроить сервер и выдать OP, а не только автор. -->
+            <Border x:Name="HostSettingsPanel" Background="{StaticResource BgCard}" CornerRadius="10" Padding="16" Margin="0,6,0,0" Visibility="Collapsed">
+                <StackPanel>
+                    <TextBlock Text="СВОЙ МИР" Style="{StaticResource FieldLabel}" TextWrapping="Wrap" Margin="0,0,0,8"/>
+                    <TextBlock Style="{StaticResource SubText}" FontSize="11" TextWrapping="Wrap" Margin="0,0,0,8"
+                               Text="Заменит текущий мир сервера при следующем запуске (старые архивы никуда не удаляются)."/>
+                    <UniformGrid Columns="2" Rows="1" Margin="0,0,0,10">
+                        <Button Content="Загрузить мир (.zip)" Style="{StaticResource SecondaryButton}" Height="34" FontSize="11.5" Margin="0,0,6,0" Click="UploadWorldZip_Click"/>
+                        <Button Content="Загрузить мир (папка)" Style="{StaticResource SecondaryButton}" Height="34" FontSize="11.5" Margin="6,0,0,0" Click="UploadWorldFolder_Click"/>
+                    </UniformGrid>
+
+                    <TextBlock Text="НАСТРОЙКИ СЕРВЕРА (применяются при следующем запуске)" Style="{StaticResource FieldLabel}" TextWrapping="Wrap" Margin="0,16,0,8"/>
+                    <CheckBox x:Name="OnlineModeCheck" Content="Нужен лицензионный аккаунт (выключено = вход с пиратки)" Margin="0,0,0,10"/>
+                    <Grid Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="90"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Макс. игроков" VerticalAlignment="Center" Style="{StaticResource SubText}"/>
+                        <TextBox x:Name="MaxPlayersBox" Grid.Column="1" Style="{StaticResource InputBox}" Height="32"/>
+                    </Grid>
+
+                    <Grid Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="140"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Режим игры" VerticalAlignment="Center" Style="{StaticResource SubText}"/>
+                        <ComboBox x:Name="GameModeBox" Grid.Column="1" Style="{StaticResource InputCombo}" Height="32"/>
+                    </Grid>
+                    <Grid Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="140"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Сложность" VerticalAlignment="Center" Style="{StaticResource SubText}"/>
+                        <ComboBox x:Name="DifficultyBox" Grid.Column="1" Style="{StaticResource InputCombo}" Height="32"/>
+                    </Grid>
+                    <Grid Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="90"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Защита спауна (блоков)" VerticalAlignment="Center" Style="{StaticResource SubText}"/>
+                        <TextBox x:Name="SpawnProtectionBox" Grid.Column="1" Style="{StaticResource InputBox}" Height="32"/>
+                    </Grid>
+                    <CheckBox x:Name="WhiteListCheck" Content="Белый список (заходят только явно разрешённые ники)" Margin="0,0,0,8"/>
+                    <CheckBox x:Name="AllowFlightCheck" Content="Разрешить полёт (нужно для некоторых модов)" Margin="0,0,0,8"/>
+                    <CheckBox x:Name="ForceGamemodeCheck" Content="Сбрасывать режим игры при входе" Margin="0,0,0,10"/>
+
+                    <TextBlock Text="Ресурспак (ссылка на .zip)" Style="{StaticResource FieldLabel}" Margin="0,6,0,6"/>
+                    <TextBox x:Name="ResourcePackBox" Style="{StaticResource InputBox}" Margin="0,0,0,8"/>
+                    <CheckBox x:Name="RequireResourcePackCheck" Content="Кикать тех, кто отказался принять ресурспак" Margin="0,0,0,8"/>
+                    <TextBlock Text="Текст в окне запроса ресурспака (необязательно)" Style="{StaticResource FieldLabel}" TextWrapping="Wrap" Margin="0,0,0,6"/>
+                    <TextBox x:Name="ResourcePackPromptBox" Style="{StaticResource InputBox}" Margin="0,0,0,10"/>
+
+                    <Button Content="Сохранить настройки сервера" Style="{StaticResource SecondaryButton}" Height="34" FontSize="11.5" Margin="0,0,0,10" Click="SaveServerSettings_Click"/>
+
+                    <TextBlock Text="БЕЛЫЙ СПИСОК (ники, кому можно заходить при включённой галке выше)" Style="{StaticResource FieldLabel}" TextWrapping="Wrap" Margin="0,16,0,8"/>
+                    <UniformGrid Columns="2" Rows="1" Margin="0,0,0,10">
+                        <Button Content="Добавить ник" Style="{StaticResource SecondaryButton}" Height="34" FontSize="11.5" Margin="0,0,6,0" Click="AddWhitelist_Click"/>
+                        <Button Content="Убрать ник" Style="{StaticResource SecondaryButton}" Height="34" FontSize="11.5" Margin="6,0,0,0" Click="RemoveWhitelist_Click"/>
+                    </UniformGrid>
+
+                    <TextBlock Text="ОПЕРАТОРЫ (команды/креатив в игре)" Style="{StaticResource FieldLabel}" TextWrapping="Wrap" Margin="0,6,0,8"/>
+                    <UniformGrid Columns="2" Rows="1">
+                        <Button Content="Выдать OP" Style="{StaticResource SecondaryButton}" Height="34" FontSize="11.5" Margin="0,0,6,0" Click="AddOp_Click"/>
+                        <Button Content="Забрать OP" Style="{StaticResource SecondaryButton}" Height="34" FontSize="11.5" Margin="6,0,0,0" Click="RemoveOp_Click"/>
+                    </UniformGrid>
+                </StackPanel>
+            </Border>
+
+            <TextBlock x:Name="StatusMessage" Margin="1,14,0,0" TextWrapping="Wrap" Style="{StaticResource SubText}"/>
+        </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

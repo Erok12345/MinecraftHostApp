@@ -1,0 +1,267 @@
+<Application x:Class="MinecraftHostApp.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:MinecraftHostApp"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+
+            <SolidColorBrush x:Key="BgDark" Color="#16171D"/>
+            <SolidColorBrush x:Key="BgPanel" Color="#1E1F28"/>
+            <SolidColorBrush x:Key="BgCard" Color="#262832"/>
+            <SolidColorBrush x:Key="BgCardHover" Color="#30323F"/>
+            <SolidColorBrush x:Key="AccentGreen" Color="#5FBF6B"/>
+            <SolidColorBrush x:Key="AccentGreenDark" Color="#4CA857"/>
+            <SolidColorBrush x:Key="AccentRed" Color="#E56060"/>
+            <SolidColorBrush x:Key="TextPrimary" Color="#F1F2F6"/>
+            <SolidColorBrush x:Key="TextSecondary" Color="#8C8FA3"/>
+            <SolidColorBrush x:Key="BorderSubtle" Color="#34364A"/>
+
+            <Style TargetType="Window">
+                <Setter Property="Background" Value="{StaticResource BgDark}"/>
+                <Setter Property="FontFamily" Value="Segoe UI"/>
+                <Setter Property="TextElement.Foreground" Value="{StaticResource TextPrimary}"/>
+            </Style>
+
+            <Style x:Key="TitleText" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+                <Setter Property="Foreground" Value="{StaticResource TextPrimary}"/>
+            </Style>
+
+            <Style x:Key="SubText" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="12.5"/>
+                <Setter Property="Foreground" Value="{StaticResource TextSecondary}"/>
+            </Style>
+
+            <Style x:Key="FieldLabel" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="Foreground" Value="{StaticResource TextSecondary}"/>
+                <Setter Property="Margin" Value="1,0,0,6"/>
+            </Style>
+
+            <!-- Общий вид полей: фиксированная высота и ширина, чтобы поля не "плыли" и не растягивались -->
+            <Style x:Key="FieldStack" TargetType="StackPanel">
+                <Setter Property="Width" Value="300"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+            </Style>
+
+            <Style x:Key="InputBox" TargetType="TextBox">
+                <Setter Property="Background" Value="{StaticResource BgCard}"/>
+                <Setter Property="Foreground" Value="{StaticResource TextPrimary}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource BorderSubtle}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="Padding" Value="12,0"/>
+                <Setter Property="Height" Value="40"/>
+                <Setter Property="FontSize" Value="13.5"/>
+                <Setter Property="CaretBrush" Value="{StaticResource TextPrimary}"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="TextBox">
+                            <Border Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="8">
+                                <ScrollViewer x:Name="PART_ContentHost" Margin="{TemplateBinding Padding}" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="InputPassword" TargetType="PasswordBox">
+                <Setter Property="Background" Value="{StaticResource BgCard}"/>
+                <Setter Property="Foreground" Value="{StaticResource TextPrimary}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource BorderSubtle}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="Padding" Value="12,0"/>
+                <Setter Property="Height" Value="40"/>
+                <Setter Property="FontSize" Value="13.5"/>
+                <Setter Property="CaretBrush" Value="{StaticResource TextPrimary}"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="PasswordBox">
+                            <Border Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="8">
+                                <ScrollViewer x:Name="PART_ContentHost" Margin="{TemplateBinding Padding}" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <!-- Тёмный ComboBox (загрузчик в окне создания сервера) -->
+            <Style x:Key="InputCombo" TargetType="ComboBox">
+                <Setter Property="Background" Value="{StaticResource BgCard}"/>
+                <Setter Property="Foreground" Value="{StaticResource TextPrimary}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource BorderSubtle}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="Height" Value="40"/>
+                <Setter Property="FontSize" Value="13.5"/>
+                <Setter Property="Padding" Value="12,0"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ComboBox">
+                            <Grid>
+                                <ToggleButton x:Name="Toggle"
+                                              Background="{TemplateBinding Background}"
+                                              BorderBrush="{TemplateBinding BorderBrush}"
+                                              BorderThickness="{TemplateBinding BorderThickness}"
+                                              IsChecked="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                              Focusable="False" ClickMode="Press">
+                                    <ToggleButton.Template>
+                                        <ControlTemplate TargetType="ToggleButton">
+                                            <Border Background="{TemplateBinding Background}"
+                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                                    CornerRadius="8">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="28"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Path Grid.Column="1" Data="M0,0 L4,4 L8,0 Z" Fill="{StaticResource TextSecondary}"
+                                                          HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Grid>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </ToggleButton.Template>
+                                </ToggleButton>
+                                <ContentPresenter Margin="{TemplateBinding Padding}"
+                                                   VerticalAlignment="Center" HorizontalAlignment="Left"
+                                                   IsHitTestVisible="False"
+                                                   Content="{TemplateBinding SelectionBoxItem}"/>
+                                <Popup x:Name="Popup" IsOpen="{TemplateBinding IsDropDownOpen}"
+                                       Placement="Bottom" AllowsTransparency="True" Focusable="False" PopupAnimation="Fade">
+                                    <Border Background="{StaticResource BgCard}" BorderBrush="{StaticResource BorderSubtle}"
+                                            BorderThickness="1" CornerRadius="8" Margin="0,4,0,0"
+                                            MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <ScrollViewer MaxHeight="260" VerticalScrollBarVisibility="Auto">
+                                            <ItemsPresenter/>
+                                        </ScrollViewer>
+                                    </Border>
+                                </Popup>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style TargetType="ComboBoxItem">
+                <Setter Property="Padding" Value="12,8"/>
+                <Setter Property="Foreground" Value="{StaticResource TextPrimary}"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ComboBoxItem">
+                            <Border x:Name="Bd" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+                                <ContentPresenter/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsHighlighted" Value="True">
+                                    <Setter TargetName="Bd" Property="Background" Value="{StaticResource BgCardHover}"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style TargetType="CheckBox">
+                <Setter Property="Foreground" Value="{StaticResource TextPrimary}"/>
+                <Setter Property="FontSize" Value="12.5"/>
+            </Style>
+
+            <!-- Тёмный ползунок (памяти серверу и т.п.) - вместо стандартного белого Windows-слайдера -->
+            <Style TargetType="Slider">
+                <Setter Property="Height" Value="26"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Slider">
+                            <Grid VerticalAlignment="Center">
+                                <Border Height="6" Background="{StaticResource BgCard}" CornerRadius="3"/>
+                                <Track x:Name="PART_Track">
+                                    <Track.DecreaseRepeatButton>
+                                        <RepeatButton Command="Slider.DecreaseLarge">
+                                            <RepeatButton.Template>
+                                                <ControlTemplate TargetType="RepeatButton">
+                                                    <Border Height="6" Background="{StaticResource AccentGreen}" CornerRadius="3"/>
+                                                </ControlTemplate>
+                                            </RepeatButton.Template>
+                                        </RepeatButton>
+                                    </Track.DecreaseRepeatButton>
+                                    <Track.IncreaseRepeatButton>
+                                        <RepeatButton Command="Slider.IncreaseLarge">
+                                            <RepeatButton.Template>
+                                                <ControlTemplate TargetType="RepeatButton">
+                                                    <Border Background="Transparent"/>
+                                                </ControlTemplate>
+                                            </RepeatButton.Template>
+                                        </RepeatButton>
+                                    </Track.IncreaseRepeatButton>
+                                    <Track.Thumb>
+                                        <Thumb Width="18" Height="18" Cursor="Hand">
+                                            <Thumb.Template>
+                                                <ControlTemplate TargetType="Thumb">
+                                                    <Ellipse Fill="{StaticResource AccentGreen}" Stroke="{StaticResource BgDark}" StrokeThickness="2"/>
+                                                </ControlTemplate>
+                                            </Thumb.Template>
+                                        </Thumb>
+                                    </Track.Thumb>
+                                </Track>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="ButtonBase" TargetType="Button">
+                <Setter Property="Height" Value="42"/>
+                <Setter Property="FontSize" Value="13.5"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+                <Setter Property="Cursor" Value="Hand"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="8">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="Bd" Property="Opacity" Value="0.88"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter TargetName="Bd" Property="Opacity" Value="0.72"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter TargetName="Bd" Property="Opacity" Value="0.4"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="PrimaryButton" TargetType="Button" BasedOn="{StaticResource ButtonBase}">
+                <Setter Property="Background" Value="{StaticResource AccentGreen}"/>
+                <Setter Property="Foreground" Value="#0F1A10"/>
+            </Style>
+
+            <Style x:Key="SecondaryButton" TargetType="Button" BasedOn="{StaticResource ButtonBase}">
+                <Setter Property="Background" Value="{StaticResource BgCard}"/>
+                <Setter Property="Foreground" Value="{StaticResource TextPrimary}"/>
+            </Style>
+
+            <Style x:Key="DangerButton" TargetType="Button" BasedOn="{StaticResource ButtonBase}">
+                <Setter Property="Background" Value="{StaticResource AccentRed}"/>
+                <Setter Property="Foreground" Value="#2A0E0E"/>
+            </Style>
+
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

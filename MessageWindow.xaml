@@ -1,0 +1,21 @@
+<Window x:Class="MinecraftHostApp.MessageWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Сообщение" Width="380" MinHeight="140"
+        Background="{StaticResource BgDark}"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        SizeToContent="Height">
+    <Grid Margin="28,26">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="MessageText" Grid.Row="0" TextWrapping="Wrap" FontSize="13.5"
+                   Foreground="{StaticResource TextPrimary}" Margin="0,0,0,22"/>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button x:Name="NoButton" Content="Нет" Style="{StaticResource SecondaryButton}" Width="100" Height="38" Margin="0,0,10,0" Click="No_Click" Visibility="Collapsed"/>
+            <Button x:Name="YesOkButton" Content="OK" Style="{StaticResource PrimaryButton}" Width="100" Height="38" IsDefault="True" Click="Yes_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

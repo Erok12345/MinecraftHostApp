@@ -1,0 +1,80 @@
+<UserControl x:Class="MinecraftHostApp.SettingsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid MaxWidth="720">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel>
+            <Button Content="← Назад" Style="{StaticResource SecondaryButton}" Width="120" Height="34"
+                    HorizontalAlignment="Left" Margin="0,0,0,20" Click="Back_Click"/>
+
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                <Border Width="8" Height="24" Background="{StaticResource AccentGreen}" CornerRadius="2" Margin="0,0,10,0"/>
+                <TextBlock Text="Настройки" Style="{StaticResource TitleText}"/>
+            </StackPanel>
+            <TextBlock Margin="18,4,0,24" TextWrapping="Wrap" Style="{StaticResource SubText}"
+                       Text="Хранится только на этом компьютере."/>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="24"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="GOOGLE DRIVE (АВТОМАТИЧЕСКИЙ ВХОД)" Style="{StaticResource FieldLabel}"/>
+                    <TextBlock x:Name="GoogleStatusText" Style="{StaticResource SubText}" FontSize="11.5" Margin="0,0,0,8" TextWrapping="Wrap"/>
+                    <Button x:Name="GoogleConnectButton" Style="{StaticResource SecondaryButton}" Height="34" FontSize="12" Margin="0,0,0,20" Click="GoogleConnect_Click"/>
+
+                    <TextBlock Text="ПАПКА GOOGLE DRIVE ДЛЯ МИРА (для хостинга, старый способ)" Style="{StaticResource FieldLabel}" TextWrapping="Wrap"/>
+                    <Grid Margin="0,0,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="86"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox x:Name="DriveBox" Grid.Column="0" Style="{StaticResource InputBox}" Margin="0,0,8,0"/>
+                        <Button Grid.Column="1" Content="Обзор" Style="{StaticResource SecondaryButton}" Click="Browse_Click"/>
+                    </Grid>
+                    <Button Content="Проверить / установить Google Drive" Style="{StaticResource SecondaryButton}"
+                            FontSize="12" Height="34" Margin="0,0,0,20" Click="CheckDrive_Click"/>
+
+                    <TextBlock Text="АДРЕС PLAYIT.GG ТУННЕЛЯ ЭТОГО ПК (для хостинга)" Style="{StaticResource FieldLabel}"/>
+                    <TextBox x:Name="PlayitBox" Style="{StaticResource InputBox}" Margin="0,0,0,6"/>
+                    <TextBlock TextWrapping="Wrap" Style="{StaticResource SubText}" FontSize="11.5" Margin="0,0,0,20"
+                               Text="Личный кабинет playit.gg → Tunnels → адрес вида xxxxx.tun.ply.gg"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="2">
+                    <TextBlock Text="КУДА СТАВИТЬ ИГРОВОЙ КЛИЕНТ (для друзей без Minecraft с нужным загрузчиком)" Style="{StaticResource FieldLabel}" TextWrapping="Wrap"/>
+                    <Grid Margin="0,0,0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="86"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox x:Name="ClientPathBox" Grid.Column="0" Style="{StaticResource InputBox}" Margin="0,0,8,0"/>
+                        <Button Grid.Column="1" Content="Обзор" Style="{StaticResource SecondaryButton}" Click="BrowseClient_Click"/>
+                    </Grid>
+
+                    <TextBlock Text="JAVA.EXE (обычно не нужно - находится сама)" Style="{StaticResource FieldLabel}" TextWrapping="Wrap" Margin="0,20,0,6"/>
+                    <Grid Margin="0,0,0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="86"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox x:Name="JavaPathBox" Grid.Column="0" Style="{StaticResource InputBox}" Margin="0,0,8,0"/>
+                        <Button Grid.Column="1" Content="Обзор" Style="{StaticResource SecondaryButton}" Click="BrowseJava_Click"/>
+                    </Grid>
+                    <TextBlock x:Name="JavaAutoDetectText" TextWrapping="Wrap" Style="{StaticResource SubText}" FontSize="11.5" Margin="0,0,0,20"/>
+
+                    <TextBlock Text="КТО ВИДИТ ТВОЙ СПИСОК СЕРВЕРОВ НА ПРОФИЛЕ" Style="{StaticResource FieldLabel}" TextWrapping="Wrap"/>
+                    <ComboBox x:Name="PrivacyBox" Style="{StaticResource InputCombo}" Height="36"/>
+                </StackPanel>
+            </Grid>
+
+            <TextBlock x:Name="StatusText" Margin="1,16,0,0" TextWrapping="Wrap" Style="{StaticResource SubText}"/>
+            <Button Content="Сохранить" Style="{StaticResource PrimaryButton}" Width="220"
+                    HorizontalAlignment="Left" Margin="0,10,0,30" Click="Save_Click"/>
+        </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

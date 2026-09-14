@@ -1,0 +1,64 @@
+<UserControl x:Class="MinecraftHostApp.ModsPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+    <Grid x:Name="SearchRoot" MaxWidth="720">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Button Grid.Row="0" Content="← Назад к серверу" Style="{StaticResource SecondaryButton}" Width="160" Height="34"
+                HorizontalAlignment="Left" Margin="0,0,0,20" Click="Back_Click"/>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,16">
+            <Border Width="8" Height="24" Background="{StaticResource AccentGreen}" CornerRadius="2" Margin="0,0,10,0"/>
+            <TextBlock x:Name="TitleText" Style="{StaticResource TitleText}"/>
+        </StackPanel>
+
+        <StackPanel x:Name="InstalledSection" Grid.Row="2" Margin="0,0,0,20">
+            <TextBlock Text="УСТАНОВЛЕНО" Style="{StaticResource FieldLabel}"/>
+            <ItemsControl x:Name="InstalledList"/>
+        </StackPanel>
+
+        <StackPanel x:Name="PendingSection" Grid.Row="3" Margin="0,0,0,20" Visibility="Collapsed">
+            <TextBlock Text="ЖДУТ ОДОБРЕНИЯ" Style="{StaticResource FieldLabel}"/>
+            <ItemsControl x:Name="PendingList"/>
+        </StackPanel>
+
+        <Grid Grid.Row="4" Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="SearchBox" Grid.Column="0" Style="{StaticResource InputBox}" KeyDown="SearchBox_KeyDown"/>
+            <Button Grid.Column="2" Content="Искать на Modrinth" Style="{StaticResource PrimaryButton}" Width="170" Click="Search_Click"/>
+        </Grid>
+
+        <StackPanel Grid.Row="5" Orientation="Horizontal" Margin="0,0,0,16">
+            <TextBlock Text="Показывать:" VerticalAlignment="Center" Style="{StaticResource SubText}" Margin="0,0,10,0"/>
+            <ComboBox x:Name="CompatFilterBox" Style="{StaticResource InputCombo}" Width="240" Height="34" SelectionChanged="CompatFilter_Changed"/>
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="6" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <TextBlock x:Name="StatusMessage" Margin="0,0,0,10" TextWrapping="Wrap" Style="{StaticResource SubText}"/>
+                <ItemsControl x:Name="ResultsList"/>
+
+                <StackPanel x:Name="PagerPanel" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,6,0,20" Visibility="Collapsed">
+                    <Button x:Name="PrevPageButton" Content="←" Width="40" Height="34" Style="{StaticResource SecondaryButton}" Click="PrevPage_Click"/>
+                    <TextBlock x:Name="PageLabel" VerticalAlignment="Center" Margin="14,0" Style="{StaticResource SubText}"/>
+                    <Button x:Name="NextPageButton" Content="→" Width="40" Height="34" Style="{StaticResource SecondaryButton}" Click="NextPage_Click"/>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+    <ContentControl x:Name="DetailHost" Visibility="Collapsed"/>
+    </Grid>
+</UserControl>
